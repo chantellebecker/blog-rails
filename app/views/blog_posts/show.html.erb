@@ -1,0 +1,44 @@
+<p id="notice"><%= notice %></p>
+
+<div class="container"><br>
+	<div class="panel panel-primary">
+		<div class="panel-heading">
+			<%= @blog_post.title %>
+		</div>
+		<div class="panel-body">
+			<p><%= @blog_post.author %></p>
+			<p><%= @blog_post.blog_entry %></p>
+		</div>
+		<div class="panel-footer">
+			<%= link_to 'Edit', edit_blog_post_path(@blog_post), class: "btn btn-warning" %>
+			<%= link_to 'Destroy', @blog_post, method: :delete, data: { confirm: 'Are you sure?'}, class: "btn btn-danger" %>
+		</div>
+	</div>
+
+	<div class="panel panel-success">
+		<div class="panel-heading">
+			Write a comment
+		</div>
+		<div class="panel-body">
+			<%= render 'comments/form' %>
+		</div>
+	</div>
+
+	<div class="panel panel-default">
+		<div class="panel-header">
+			<h4>Comments</h4>
+		</div>
+		<% @blog_post.comments.each do |comment| %>
+			<div class="panel-body">
+				<p><em>Posted <%= comment.created_at.strftime('%m/%d/%Y at %I:%M%p') %></em</p>
+				<p><strong><%= comment.author %></strong> said: </p>
+				<p><%= comment.comment_entry %></p>
+				<%= link_to "Edit Comment", edit_blog_post_comment_path(@blog_post, comment) %> |
+				<%= link_to "Destroy", [comment.blog_post, comment], method: :delete, data: {confirm: 'Are you sure?'} %>
+			</div>
+		<% end %>
+	</div>
+
+	<%= link_to 'Back', blog_posts_path, class: "btn btn-primary" %>
+
+</div>
