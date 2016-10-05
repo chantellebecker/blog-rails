@@ -1,9 +1,7 @@
-<p id="notice"><%= notice %></p>
-
-  <h1>Blog Posts</h1>
+<h1>Your Posts</h1>
 
   <div class="row">
-    <% @blog_posts.each do |blog| %>
+    <% current_user.blog_posts.each do |blog| %>
     <div class="col-md-6">
       <div class="panel panel-default">
         <div class="panel-heading">
@@ -12,7 +10,7 @@
         </div>
         
         <div class="panel-body">
-         By <%= link_to blog.user.username, user_posts_path(id: blog.user.id) %> <br>
+         By <%= blog.user.username %> <br>
           <i>Posted <%= blog.created_at.strftime('%m/%d/%Y at %I:%M%p') %></i>
           <p><%= blog.blog_entry[0..250] %>...[<%= link_to "Read More", blog %>]</p>
         </div>
@@ -23,8 +21,8 @@
           <%= link_to "Delete", blog, method: :delete, data: {confirm: 'Are you sure?'}, class: "btn btn-danger" %>
         </div>
         <% end %>
+    
       </div>
     </div>
     <% end %>
   </div>
- 

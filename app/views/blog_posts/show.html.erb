@@ -1,18 +1,21 @@
 <p id="notice"><%= notice %></p>
 
-<div class="container"><br>
+
 	<div class="panel panel-primary">
 		<div class="panel-heading">
 			<%= @blog_post.title %>
 		</div>
 		<div class="panel-body">
-			<p><%= @blog_post.author %></p>
+			<p><%= link_to @blog_post.user.username, user_posts_path(id: @blog_post.user.id) %></p>
 			<p><%= @blog_post.blog_entry %></p>
 		</div>
-		<div class="panel-footer">
-			<%= link_to 'Edit', edit_blog_post_path(@blog_post), class: "btn btn-warning" %>
-			<%= link_to 'Destroy', @blog_post, method: :delete, data: { confirm: 'Are you sure?'}, class: "btn btn-danger" %>
-		</div>
+
+		 <% if current_user.id == @blog_post.user.id %>
+        <div class="panel-footer">
+          <%= link_to "Edit", edit_blog_post_path(@blog_post), class: "btn btn-warning" %>
+          <%= link_to "Delete", @blog_post, method: :delete, data: {confirm: 'Are you sure?'}, class: "btn btn-danger" %>
+        </div>
+        <% end %>
 	</div>
 
 	<div class="panel panel-success">
@@ -30,15 +33,20 @@
 		</div>
 		<% @blog_post.comments.each do |comment| %>
 			<div class="panel-body">
-				<p><em>Posted <%= comment.created_at.strftime('%m/%d/%Y at %I:%M%p') %></em</p>
-				<p><strong><%= comment.author %></strong> said: </p>
+				<p><i>Posted <%= comment.created_at.strftime('%m/%d/%Y at %I:%M%p') %></i></p>
+				<p><strong><%= link_to comment.user.username, user_posts_path(id: comment.user.id) %></strong> said: </p>
 				<p><%= comment.comment_entry %></p>
-				<%= link_to "Edit Comment", edit_blog_post_comment_path(@blog_post, comment) %> |
-				<%= link_to "Destroy", [comment.blog_post, comment], method: :delete, data: {confirm: 'Are you sure?'} %>
+				</div>
+			<% if current_user.id == @blog_post.user.id %>
+        		<div class="panel-footer">
+         			<%= link_to "Edit Comment", edit_blog_post_comment_path(@blog_post, comment) %> |
+          			<%= link_to "Delete", [comment.blog_post, comment], method: :delete, data: {confirm: 'Are you sure?'} %>
+        		</div>
+        	<% end %>
+				
 			</div>
 		<% end %>
 	</div>
 
 	<%= link_to 'Back', blog_posts_path, class: "btn btn-primary" %>
 
-</div>

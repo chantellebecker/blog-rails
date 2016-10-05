@@ -22,6 +22,7 @@
 	</div>
 	<div class="cant-see-me">
 		<%= f.number_field :blog_post_id, value: @blog_post.id %>
+		<%= f.number_field :user_id, value: current_user.id %>
 	</div>
 	<div class="actions">
 		<%= f.submit class: "btn btn-lg"%>
